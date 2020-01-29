@@ -10,6 +10,18 @@
         <logicalFolder name="config" displayName="config" projectFiles="true">
           <itemPath>mcc_generated_files/config/clock_config.h</itemPath>
         </logicalFolder>
+        <logicalFolder name="cryptoauthlib"
+                       displayName="cryptoauthlib"
+                       projectFiles="true">
+          <logicalFolder name="lib" displayName="lib" projectFiles="true">
+          </logicalFolder>
+        </logicalFolder>
+        <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
+          <itemPath>mcc_generated_files/drivers/i2c_simple_master.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="examples" displayName="examples" projectFiles="true">
+          <itemPath>mcc_generated_files/examples/twi0_master_example.h</itemPath>
+        </logicalFolder>
         <logicalFolder name="include" displayName="include" projectFiles="true">
           <itemPath>mcc_generated_files/include/ccp.h</itemPath>
           <itemPath>mcc_generated_files/include/rstctrl.h</itemPath>
@@ -18,6 +30,10 @@
           <itemPath>mcc_generated_files/include/usart2.h</itemPath>
           <itemPath>mcc_generated_files/include/protected_io.h</itemPath>
           <itemPath>mcc_generated_files/include/pin_manager.h</itemPath>
+          <itemPath>mcc_generated_files/include/twi0_master.h</itemPath>
+          <itemPath>mcc_generated_files/include/adc0.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="mqtt" displayName="mqtt" projectFiles="true">
         </logicalFolder>
         <logicalFolder name="utils" displayName="utils" projectFiles="true">
           <logicalFolder name="assembler" displayName="assembler" projectFiles="true">
@@ -30,6 +46,20 @@
           <itemPath>mcc_generated_files/utils/atomic.h</itemPath>
           <itemPath>mcc_generated_files/utils/utils.h</itemPath>
           <itemPath>mcc_generated_files/utils/utils_assert.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="winc" displayName="winc" projectFiles="true">
+          <logicalFolder name="bsp" displayName="bsp" projectFiles="true">
+          </logicalFolder>
+          <logicalFolder name="bus_wrapper" displayName="bus_wrapper" projectFiles="true">
+          </logicalFolder>
+          <logicalFolder name="common" displayName="common" projectFiles="true">
+          </logicalFolder>
+          <logicalFolder name="driver" displayName="driver" projectFiles="true">
+          </logicalFolder>
+          <logicalFolder name="socket" displayName="socket" projectFiles="true">
+          </logicalFolder>
+          <logicalFolder name="spi_flash" displayName="spi_flash" projectFiles="true">
+          </logicalFolder>
         </logicalFolder>
         <itemPath>mcc_generated_files/mcc.h</itemPath>
         <itemPath>mcc_generated_files/delay.h</itemPath>
@@ -45,11 +75,41 @@
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
                      projectFiles="true">
+        <logicalFolder name="cryptoauthlib"
+                       displayName="cryptoauthlib"
+                       projectFiles="true">
+          <logicalFolder name="lib" displayName="lib" projectFiles="true">
+          </logicalFolder>
+        </logicalFolder>
+        <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
+          <itemPath>mcc_generated_files/drivers/i2c_simple_master.c</itemPath>
+        </logicalFolder>
+        <logicalFolder name="examples" displayName="examples" projectFiles="true">
+          <itemPath>mcc_generated_files/examples/twi0_master_example.c</itemPath>
+        </logicalFolder>
+        <logicalFolder name="mqtt" displayName="mqtt" projectFiles="true">
+        </logicalFolder>
         <logicalFolder name="src" displayName="src" projectFiles="true">
           <itemPath>mcc_generated_files/src/pin_manager.c</itemPath>
           <itemPath>mcc_generated_files/src/cpuint.c</itemPath>
           <itemPath>mcc_generated_files/src/usart2.c</itemPath>
           <itemPath>mcc_generated_files/src/protected_io.S</itemPath>
+          <itemPath>mcc_generated_files/src/twi0_master.c</itemPath>
+          <itemPath>mcc_generated_files/src/adc0.c</itemPath>
+        </logicalFolder>
+        <logicalFolder name="winc" displayName="winc" projectFiles="true">
+          <logicalFolder name="bsp" displayName="bsp" projectFiles="true">
+          </logicalFolder>
+          <logicalFolder name="bus_wrapper" displayName="bus_wrapper" projectFiles="true">
+          </logicalFolder>
+          <logicalFolder name="common" displayName="common" projectFiles="true">
+          </logicalFolder>
+          <logicalFolder name="driver" displayName="driver" projectFiles="true">
+          </logicalFolder>
+          <logicalFolder name="socket" displayName="socket" projectFiles="true">
+          </logicalFolder>
+          <logicalFolder name="spi_flash" displayName="spi_flash" projectFiles="true">
+          </logicalFolder>
         </logicalFolder>
         <itemPath>mcc_generated_files/device_config.c</itemPath>
         <itemPath>mcc_generated_files/mcc.c</itemPath>
@@ -174,7 +234,8 @@
         <property key="verbose" value="false"/>
       </AVR-GCC>
       <AVR-Global>
-        <property key="common-include-directories" value=""/>
+        <property key="common-include-directories"
+                  value=";mcc_generated_files/config;mcc_generated_files/winc;mcc_generated_files/drivers"/>
         <property key="eep" value="false"/>
         <property key="external-ram-check" value="false"/>
         <property key="hex" value="true"/>
@@ -209,7 +270,7 @@
         <property key="communication.activationmode" value="nohv"/>
         <property key="communication.interface" value="updi"/>
         <property key="communication.speed" value="0.500"/>
-        <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="debugoptions.useswbreakpoints" value="true"/>
         <property key="firmware.path"
                   value="Press to browse for a specific firmware version"/>
         <property key="firmware.update.action" value="firmware.update.use.latest"/>

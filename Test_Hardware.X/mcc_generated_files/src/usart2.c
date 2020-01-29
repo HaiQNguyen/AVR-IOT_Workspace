@@ -47,8 +47,8 @@ void USART2_Initialize()
     //set baud rate register
     USART2.BAUD = (uint16_t)USART2_BAUD_RATE(115200);
 	
-    //RXCIE disabled; TXCIE disabled; DREIE disabled; RXSIE disabled; LBME disabled; ABEIE disabled; RS485 OFF; 
-    USART2.CTRLA = 0x00;
+    //RXCIE enabled; TXCIE disabled; DREIE disabled; RXSIE disabled; LBME disabled; ABEIE disabled; RS485 OFF; 
+    USART2.CTRLA = 0x80;
 	
     //RXEN enabled; TXEN enabled; SFDEN disabled; ODME disabled; RXMODE NORMAL; MPCM disabled; 
     USART2.CTRLB = 0xC0;
