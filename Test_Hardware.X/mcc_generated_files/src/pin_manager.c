@@ -25,18 +25,22 @@
 static void (*PORTD_PD5_InterruptHandler)(void);
 static void (*PORTA_PA2_InterruptHandler)(void);
 static void (*PORTF_SW0_InterruptHandler)(void);
-static void (*PORTA_CONF_WIFI_M2M_RESET_PIN_InterruptHandler)(void);
+static void (*PORTA_RST_InterruptHandler)(void);
+static void (*PORTA_PA4_InterruptHandler)(void);
 static void (*PORTA_PA3_InterruptHandler)(void);
+static void (*PORTA_PA6_InterruptHandler)(void);
+static void (*PORTA_PA5_InterruptHandler)(void);
+static void (*PORTA_nCS_InterruptHandler)(void);
 static void (*PORTF_PF1_InterruptHandler)(void);
 static void (*PORTF_PF0_InterruptHandler)(void);
-static void (*PORTF_CONF_WIFI_M2M_CHIP_ENABLE_PIN_InterruptHandler)(void);
 static void (*PORTD_LED_DATA_InterruptHandler)(void);
-static void (*PORTF_CONF_WIFI_M2M_INT_PIN_InterruptHandler)(void);
+static void (*PORTF_CE_InterruptHandler)(void);
 static void (*PORTD_LED_ERR_InterruptHandler)(void);
+static void (*PORTF_INT_InterruptHandler)(void);
 static void (*PORTF_SW1_InterruptHandler)(void);
 static void (*PORTD_LED_WIFI_InterruptHandler)(void);
-static void (*PORTF_CONF_WIFI_M2M_WAKE_PIN_InterruptHandler)(void);
 static void (*PORTD_LED_CONN_InterruptHandler)(void);
+static void (*PORTF_WAKE_InterruptHandler)(void);
 
 void PORT_Initialize(void);
 
@@ -45,12 +49,12 @@ void PIN_MANAGER_Initialize()
     PORT_Initialize();
 
     /* DIR Registers Initialization */
-    PORTA.DIR = 0x02;
+    PORTA.DIR = 0xD2;
     PORTB.DIR = 0x00;
     PORTC.DIR = 0x00;
     PORTD.DIR = 0x0F;
     PORTE.DIR = 0x00;
-    PORTF.DIR = 0x01;
+    PORTF.DIR = 0x19;
 
     /* OUT Registers Initialization */
     PORTA.OUT = 0x80;
@@ -122,18 +126,22 @@ void PIN_MANAGER_Initialize()
     PORTD_PD5_SetInterruptHandler(PORTD_PD5_DefaultInterruptHandler);
     PORTA_PA2_SetInterruptHandler(PORTA_PA2_DefaultInterruptHandler);
     PORTF_SW0_SetInterruptHandler(PORTF_SW0_DefaultInterruptHandler);
-    PORTA_CONF_WIFI_M2M_RESET_PIN_SetInterruptHandler(PORTA_CONF_WIFI_M2M_RESET_PIN_DefaultInterruptHandler);
+    PORTA_RST_SetInterruptHandler(PORTA_RST_DefaultInterruptHandler);
+    PORTA_PA4_SetInterruptHandler(PORTA_PA4_DefaultInterruptHandler);
     PORTA_PA3_SetInterruptHandler(PORTA_PA3_DefaultInterruptHandler);
+    PORTA_PA6_SetInterruptHandler(PORTA_PA6_DefaultInterruptHandler);
+    PORTA_PA5_SetInterruptHandler(PORTA_PA5_DefaultInterruptHandler);
+    PORTA_nCS_SetInterruptHandler(PORTA_nCS_DefaultInterruptHandler);
     PORTF_PF1_SetInterruptHandler(PORTF_PF1_DefaultInterruptHandler);
     PORTF_PF0_SetInterruptHandler(PORTF_PF0_DefaultInterruptHandler);
-    PORTF_CONF_WIFI_M2M_CHIP_ENABLE_PIN_SetInterruptHandler(PORTF_CONF_WIFI_M2M_CHIP_ENABLE_PIN_DefaultInterruptHandler);
     PORTD_LED_DATA_SetInterruptHandler(PORTD_LED_DATA_DefaultInterruptHandler);
-    PORTF_CONF_WIFI_M2M_INT_PIN_SetInterruptHandler(PORTF_CONF_WIFI_M2M_INT_PIN_DefaultInterruptHandler);
+    PORTF_CE_SetInterruptHandler(PORTF_CE_DefaultInterruptHandler);
     PORTD_LED_ERR_SetInterruptHandler(PORTD_LED_ERR_DefaultInterruptHandler);
+    PORTF_INT_SetInterruptHandler(PORTF_INT_DefaultInterruptHandler);
     PORTF_SW1_SetInterruptHandler(PORTF_SW1_DefaultInterruptHandler);
     PORTD_LED_WIFI_SetInterruptHandler(PORTD_LED_WIFI_DefaultInterruptHandler);
-    PORTF_CONF_WIFI_M2M_WAKE_PIN_SetInterruptHandler(PORTF_CONF_WIFI_M2M_WAKE_PIN_DefaultInterruptHandler);
     PORTD_LED_CONN_SetInterruptHandler(PORTD_LED_CONN_DefaultInterruptHandler);
+    PORTF_WAKE_SetInterruptHandler(PORTF_WAKE_DefaultInterruptHandler);
 }
 
 void PORT_Initialize(void)
@@ -209,17 +217,30 @@ void PORTF_SW0_DefaultInterruptHandler(void)
     // or set custom function using PORTF_SW0_SetInterruptHandler()
 }
 /**
-  Allows selecting an interrupt handler for PORTA_CONF_WIFI_M2M_RESET_PIN at application runtime
+  Allows selecting an interrupt handler for PORTA_RST at application runtime
 */
-void PORTA_CONF_WIFI_M2M_RESET_PIN_SetInterruptHandler(void (* interruptHandler)(void)) 
+void PORTA_RST_SetInterruptHandler(void (* interruptHandler)(void)) 
 {
-    PORTA_CONF_WIFI_M2M_RESET_PIN_InterruptHandler = interruptHandler;
+    PORTA_RST_InterruptHandler = interruptHandler;
 }
 
-void PORTA_CONF_WIFI_M2M_RESET_PIN_DefaultInterruptHandler(void)
+void PORTA_RST_DefaultInterruptHandler(void)
 {
-    // add your PORTA_CONF_WIFI_M2M_RESET_PIN interrupt custom code
-    // or set custom function using PORTA_CONF_WIFI_M2M_RESET_PIN_SetInterruptHandler()
+    // add your PORTA_RST interrupt custom code
+    // or set custom function using PORTA_RST_SetInterruptHandler()
+}
+/**
+  Allows selecting an interrupt handler for PORTA_PA4 at application runtime
+*/
+void PORTA_PA4_SetInterruptHandler(void (* interruptHandler)(void)) 
+{
+    PORTA_PA4_InterruptHandler = interruptHandler;
+}
+
+void PORTA_PA4_DefaultInterruptHandler(void)
+{
+    // add your PORTA_PA4 interrupt custom code
+    // or set custom function using PORTA_PA4_SetInterruptHandler()
 }
 /**
   Allows selecting an interrupt handler for PORTA_PA3 at application runtime
@@ -233,6 +254,45 @@ void PORTA_PA3_DefaultInterruptHandler(void)
 {
     // add your PORTA_PA3 interrupt custom code
     // or set custom function using PORTA_PA3_SetInterruptHandler()
+}
+/**
+  Allows selecting an interrupt handler for PORTA_PA6 at application runtime
+*/
+void PORTA_PA6_SetInterruptHandler(void (* interruptHandler)(void)) 
+{
+    PORTA_PA6_InterruptHandler = interruptHandler;
+}
+
+void PORTA_PA6_DefaultInterruptHandler(void)
+{
+    // add your PORTA_PA6 interrupt custom code
+    // or set custom function using PORTA_PA6_SetInterruptHandler()
+}
+/**
+  Allows selecting an interrupt handler for PORTA_PA5 at application runtime
+*/
+void PORTA_PA5_SetInterruptHandler(void (* interruptHandler)(void)) 
+{
+    PORTA_PA5_InterruptHandler = interruptHandler;
+}
+
+void PORTA_PA5_DefaultInterruptHandler(void)
+{
+    // add your PORTA_PA5 interrupt custom code
+    // or set custom function using PORTA_PA5_SetInterruptHandler()
+}
+/**
+  Allows selecting an interrupt handler for PORTA_nCS at application runtime
+*/
+void PORTA_nCS_SetInterruptHandler(void (* interruptHandler)(void)) 
+{
+    PORTA_nCS_InterruptHandler = interruptHandler;
+}
+
+void PORTA_nCS_DefaultInterruptHandler(void)
+{
+    // add your PORTA_nCS interrupt custom code
+    // or set custom function using PORTA_nCS_SetInterruptHandler()
 }
 /**
   Allows selecting an interrupt handler for PORTF_PF1 at application runtime
@@ -261,19 +321,6 @@ void PORTF_PF0_DefaultInterruptHandler(void)
     // or set custom function using PORTF_PF0_SetInterruptHandler()
 }
 /**
-  Allows selecting an interrupt handler for PORTF_CONF_WIFI_M2M_CHIP_ENABLE_PIN at application runtime
-*/
-void PORTF_CONF_WIFI_M2M_CHIP_ENABLE_PIN_SetInterruptHandler(void (* interruptHandler)(void)) 
-{
-    PORTF_CONF_WIFI_M2M_CHIP_ENABLE_PIN_InterruptHandler = interruptHandler;
-}
-
-void PORTF_CONF_WIFI_M2M_CHIP_ENABLE_PIN_DefaultInterruptHandler(void)
-{
-    // add your PORTF_CONF_WIFI_M2M_CHIP_ENABLE_PIN interrupt custom code
-    // or set custom function using PORTF_CONF_WIFI_M2M_CHIP_ENABLE_PIN_SetInterruptHandler()
-}
-/**
   Allows selecting an interrupt handler for PORTD_LED_DATA at application runtime
 */
 void PORTD_LED_DATA_SetInterruptHandler(void (* interruptHandler)(void)) 
@@ -287,17 +334,17 @@ void PORTD_LED_DATA_DefaultInterruptHandler(void)
     // or set custom function using PORTD_LED_DATA_SetInterruptHandler()
 }
 /**
-  Allows selecting an interrupt handler for PORTF_CONF_WIFI_M2M_INT_PIN at application runtime
+  Allows selecting an interrupt handler for PORTF_CE at application runtime
 */
-void PORTF_CONF_WIFI_M2M_INT_PIN_SetInterruptHandler(void (* interruptHandler)(void)) 
+void PORTF_CE_SetInterruptHandler(void (* interruptHandler)(void)) 
 {
-    PORTF_CONF_WIFI_M2M_INT_PIN_InterruptHandler = interruptHandler;
+    PORTF_CE_InterruptHandler = interruptHandler;
 }
 
-void PORTF_CONF_WIFI_M2M_INT_PIN_DefaultInterruptHandler(void)
+void PORTF_CE_DefaultInterruptHandler(void)
 {
-    // add your PORTF_CONF_WIFI_M2M_INT_PIN interrupt custom code
-    // or set custom function using PORTF_CONF_WIFI_M2M_INT_PIN_SetInterruptHandler()
+    // add your PORTF_CE interrupt custom code
+    // or set custom function using PORTF_CE_SetInterruptHandler()
 }
 /**
   Allows selecting an interrupt handler for PORTD_LED_ERR at application runtime
@@ -311,6 +358,19 @@ void PORTD_LED_ERR_DefaultInterruptHandler(void)
 {
     // add your PORTD_LED_ERR interrupt custom code
     // or set custom function using PORTD_LED_ERR_SetInterruptHandler()
+}
+/**
+  Allows selecting an interrupt handler for PORTF_INT at application runtime
+*/
+void PORTF_INT_SetInterruptHandler(void (* interruptHandler)(void)) 
+{
+    PORTF_INT_InterruptHandler = interruptHandler;
+}
+
+void PORTF_INT_DefaultInterruptHandler(void)
+{
+    // add your PORTF_INT interrupt custom code
+    // or set custom function using PORTF_INT_SetInterruptHandler()
 }
 /**
   Allows selecting an interrupt handler for PORTF_SW1 at application runtime
@@ -339,19 +399,6 @@ void PORTD_LED_WIFI_DefaultInterruptHandler(void)
     // or set custom function using PORTD_LED_WIFI_SetInterruptHandler()
 }
 /**
-  Allows selecting an interrupt handler for PORTF_CONF_WIFI_M2M_WAKE_PIN at application runtime
-*/
-void PORTF_CONF_WIFI_M2M_WAKE_PIN_SetInterruptHandler(void (* interruptHandler)(void)) 
-{
-    PORTF_CONF_WIFI_M2M_WAKE_PIN_InterruptHandler = interruptHandler;
-}
-
-void PORTF_CONF_WIFI_M2M_WAKE_PIN_DefaultInterruptHandler(void)
-{
-    // add your PORTF_CONF_WIFI_M2M_WAKE_PIN interrupt custom code
-    // or set custom function using PORTF_CONF_WIFI_M2M_WAKE_PIN_SetInterruptHandler()
-}
-/**
   Allows selecting an interrupt handler for PORTD_LED_CONN at application runtime
 */
 void PORTD_LED_CONN_SetInterruptHandler(void (* interruptHandler)(void)) 
@@ -363,6 +410,19 @@ void PORTD_LED_CONN_DefaultInterruptHandler(void)
 {
     // add your PORTD_LED_CONN interrupt custom code
     // or set custom function using PORTD_LED_CONN_SetInterruptHandler()
+}
+/**
+  Allows selecting an interrupt handler for PORTF_WAKE at application runtime
+*/
+void PORTF_WAKE_SetInterruptHandler(void (* interruptHandler)(void)) 
+{
+    PORTF_WAKE_InterruptHandler = interruptHandler;
+}
+
+void PORTF_WAKE_DefaultInterruptHandler(void)
+{
+    // add your PORTF_WAKE interrupt custom code
+    // or set custom function using PORTF_WAKE_SetInterruptHandler()
 }
 ISR(PORTF_PORT_vect)
 {  
@@ -381,11 +441,11 @@ ISR(PORTF_PORT_vect)
     }
     if(VPORTF.INTFLAGS & PORT_INT3_bm)
     {
-       PORTF_CONF_WIFI_M2M_CHIP_ENABLE_PIN_InterruptHandler();
+       PORTF_CE_InterruptHandler();
     }
     if(VPORTF.INTFLAGS & PORT_INT2_bm)
     {
-       PORTF_CONF_WIFI_M2M_INT_PIN_InterruptHandler();
+       PORTF_INT_InterruptHandler();
     }
     if(VPORTF.INTFLAGS & PORT_INT5_bm)
     {
@@ -393,7 +453,7 @@ ISR(PORTF_PORT_vect)
     }
     if(VPORTF.INTFLAGS & PORT_INT4_bm)
     {
-       PORTF_CONF_WIFI_M2M_WAKE_PIN_InterruptHandler();
+       PORTF_WAKE_InterruptHandler();
     }
 
     /* Clear interrupt flags */

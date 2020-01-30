@@ -33,6 +33,7 @@ void SYSTEM_Initialize(void)
     WDT_Initialize();
     SLPCTRL_Initialize();
     CLKCTRL_Initialize();
+    SPI0_Initialize();
     I2C0_Initialize();
     ADC0_Initialize();
     USART2_Initialize();
