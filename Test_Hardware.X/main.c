@@ -39,7 +39,7 @@ void static TEST_HARDWARE_CLI(char ch);
 void static ProccessCommand(char * cmd);
 
 void wifi_cb(uint8_t u8WiFiEvent, const void *const pvMsg);
-void winc_register_init(void);
+//void winc_register_init(void);
 
 void SW1_InterruptHandler(void);
 void SW0_InterruptHandler(void);
@@ -74,7 +74,7 @@ int main(void)
     printf("/*********************************\n");
     /* Replace with your application code */
 
-    winc_register_init();
+    //winc_register_init();
     winc_adapter_init();
     tstrWifiInitParam   param;
 
@@ -164,9 +164,6 @@ void static TEST_HARDWARE_CLI(char ch)
 {
     //waiting for cartridge return to process the command  
     if('\n' == ch || '\r' == ch){
-        //detect single \n character, we skip it
-        if(0 == buff_count)
-            return;
         cmd_found = true;
     }
     
@@ -302,9 +299,6 @@ void wifi_cb(uint8_t u8WiFiEvent, const void *const pvMsg)
     }
 }
 
-void winc_register_init(void)
-{
-}
 
 void UART2_RXCallback(void)
 {

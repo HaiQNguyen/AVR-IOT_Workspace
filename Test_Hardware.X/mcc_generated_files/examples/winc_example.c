@@ -38,7 +38,7 @@
 #include "../mcc.h"
 #include "../winc/include/winc.h"
 #include "../winc/include/winc_legacy.h"
-#if 0
+
 void winc_register_init(void);
 
 void wifi_event_cb(uint8_t u8WiFiEvent, const void *const pvMsg)
@@ -81,4 +81,3 @@ void winc_example(void)
 void winc_register_init(void)
 {
 }
-#endif

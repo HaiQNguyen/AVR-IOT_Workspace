@@ -31,13 +31,15 @@ void SYSTEM_Initialize(void)
     PIN_MANAGER_Initialize();
     BOD_Initialize();
     WDT_Initialize();
-    SLPCTRL_Initialize();
     CLKCTRL_Initialize();
+    SLPCTRL_Initialize();
     SPI0_Initialize();
     I2C0_Initialize();
     ADC0_Initialize();
+    RTC_Initialize();
     USART2_Initialize();
     CPUINT_Initialize();
+    timeout_initialize();
 }
 
 /**
