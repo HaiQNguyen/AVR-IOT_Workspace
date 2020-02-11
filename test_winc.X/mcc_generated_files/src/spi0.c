@@ -29,16 +29,15 @@ typedef struct spi0_descriptor_s {
 } spi0_descriptor_t;
 
 spi0_configuration_t spi0_configurations[] = {
-    { 0x23, 0x0 },
-    { 0x31, 0x0 }
+    { 0x23, 0x0 }
 };
 
 static spi0_descriptor_t spi0_desc;
 
 uint8_t SPI0_Initialize()
 {
-    //DORD disabled; MASTER enabled; CLK2X disabled; PRESC DIV4; ENABLE enabled; 
-    SPI0.CTRLA = 0x21;
+    //DORD disabled; MASTER enabled; CLK2X enabled; PRESC DIV16; ENABLE enabled; 
+    SPI0.CTRLA = 0x33;
 
     //BUFEN disabled; BUFWR disabled; SSD disabled; MODE 0; 
     SPI0.CTRLB = 0x00;

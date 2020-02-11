@@ -30,16 +30,16 @@ extern "C" {
 
 #include "utils/compiler.h"
 #include "include/pin_manager.h"
-#include "include/rtc.h"
-#include "include/usart2.h"
-#include "drivers/i2c_simple_master.h"
-#include "include/cpuint.h"
-#include "include/adc0.h"
-#include "include/spi0.h"
 #include "include/twi0_master.h"
+#include "include/usart2.h"
+#include "include/rtc.h"
+#include "drivers/i2c_simple_master.h"
 #include "delay.h"
-#include "drivers/spi_master.h"
+#include "include/cpuint.h"
 #include "drivers/timeout.h"
+#include "drivers/spi_master.h"
+#include "include/spi0.h"
+#include "include/adc0.h"
 #include "config/clock_config.h"
 
 /**

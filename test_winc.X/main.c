@@ -1,82 +1,80 @@
 /*
-    (c) 2018 Microchip Technology Inc. and its subsidiaries. 
-    
-    Subject to your compliance with these terms, you may use Microchip software and any 
-    derivatives exclusively with Microchip products. It is your responsibility to comply with third party 
-    license terms applicable to your use of third party software (including open source software) that 
-    may accompany Microchip software.
-    
-    THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER 
-    EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY 
-    IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS 
-    FOR A PARTICULAR PURPOSE.
-    
-    IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE, 
-    INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND 
-    WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP 
-    HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO 
-    THE FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL 
-    CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT 
-    OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
-    SOFTWARE.
+\file   main.c
+
+\brief  Main source file.
+
+(c) 2018 Microchip Technology Inc. and its subsidiaries.
+
+Subject to your compliance with these terms, you may use Microchip software and any
+derivatives exclusively with Microchip products. It is your responsibility to comply with third party
+license terms applicable to your use of third party software (including open source software) that
+may accompany Microchip software.
+
+THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER
+EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY
+IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS
+FOR A PARTICULAR PURPOSE.
+
+IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE,
+INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND
+WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP
+HAS BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO
+THE FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL
+CLAIMS IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT
+OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS
+SOFTWARE.
 */
 
-#include "mcc_generated_files/mcc.h"
-#include "mcc_generated_files/examples/winc_example.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "mcc_generated_files/application_manager.h"
+#include "mcc_generated_files/led.h"
+#include "mcc_generated_files/sensors_handling.h"
+#include "mcc_generated_files/cloud/cloud_service.h"
+#include "mcc_generated_files/debug_print.h"
 
-#include "mcc_generated_files/winc/include/winc.h"
-#include "mcc_generated_files/winc/include/winc_legacy.h"
-
-void winc_register_init(void);
-
-void wifi_event_cb(uint8_t u8WiFiEvent, const void *const pvMsg)
+//This handles messages published from the MQTT server when subscribed
+void receivedFromCloud(uint8_t *topic, uint8_t *payload)
 {
-    printf("callback\n");
-    switch(u8WiFiEvent)
+    char *toggleToken = "\"toggle\":";
+    char *subString;
+    
+    if ((subString = strstr((char*)payload, toggleToken)))
     {
-    case M2M_WIFI_RESP_CON_STATE_CHANGED:
-        {
-            // add custom code here
-        }
-        break;
-
-    default:
-        break;
+        LED_holdYellowOn( subString[strlen(toggleToken)] == '1' );
     }
+
+
+    debug_printer(SEVERITY_NONE, LEVEL_NORMAL, "topic: %s", topic);
+    debug_printer(SEVERITY_NONE, LEVEL_NORMAL, "payload: %s", payload);
 }
 
-/*
-    Main application
-*/
+// This will get called every 1 second only while we have a valid Cloud connection
+void sendToCloud(void)
+{
+   static char json[70];
+         
+   // This part runs every CFG_SEND_INTERVAL seconds
+   int rawTemperature = SENSORS_getTempValue();
+   int light = SENSORS_getLightValue();
+   int len = sprintf(json, "{\"Light\":%d,\"Temp\":\"%d.%02d\"}", light,rawTemperature/100,abs(rawTemperature)%100);
+
+   if (len >0) {
+      CLOUD_publishData((uint8_t*)json, len);
+      LED_flashYellow();
+   }
+}
+ 
+ 
 int main(void)
 {
-    /* Initializes MCU, drivers and middleware */
-    SYSTEM_Initialize();
-    printf("test winc\n");
-    /* Replace with your application code */
-    winc_register_init();
-    winc_adapter_init();
-    tstrWifiInitParam   param;
-    
-    m2m_memset((uint8_t *)&param, 0, sizeof(param));
-    param.pfAppWifiCb   = wifi_event_cb;
+   application_init();
 
-    int8_t ret = m2m_wifi_init(&param);
-    if (M2M_SUCCESS != ret){
-        while(1);
-    }
-    
-    ret = m2m_wifi_connect((char *)CFG_MAIN_WLAN_SSID, sizeof(CFG_MAIN_WLAN_SSID), CFG_MAIN_WLAN_AUTH, (void *)CFG_MAIN_WLAN_PSK, M2M_WIFI_CH_ALL);
-    
-    while(1)
-    {
-        m2m_wifi_handle_events(NULL);
-    }
+   while (1)
+   { 
+      runScheduler();  
+   }
+   
+   return 0;
 }
-
-void winc_register_init(void)
-{
-}
-/**
-    End of File
-*/

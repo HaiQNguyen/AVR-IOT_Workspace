@@ -80,6 +80,24 @@
 #define SW0_DisableDigitalInputBuffer() do { PORTF.PIN6CTRL = (PORTF.PIN6CTRL & ~PORT_ISC_gm) | 0x4 ; } while(0)
 #define SW0_EnableInterruptForLowLevelSensing() do { PORTF.PIN6CTRL = (PORTF.PIN6CTRL & ~PORT_ISC_gm) | 0x5 ; } while(0)
 
+//get/set RST aliases
+#define RST_SetHigh() do { PORTA_OUTSET = 0x2; } while(0)
+#define RST_SetLow() do { PORTA_OUTCLR = 0x2; } while(0)
+#define RST_Toggle() do { PORTA_OUTTGL = 0x2; } while(0)
+#define RST_GetValue() (VPORTA.IN & (0x1 << 1))
+#define RST_SetDigitalInput() do { PORTA_DIRCLR = 0x2; } while(0)
+#define RST_SetDigitalOutput() do { PORTA_DIRSET = 0x2; } while(0)
+#define RST_SetPullUp() do { PORTA_PIN1CTRL  |= PORT_PULLUPEN_bm; } while(0)
+#define RST_ResetPullUp() do { PORTA_PIN1CTRL  &= ~PORT_PULLUPEN_bm; } while(0)
+#define RST_SetInverted() do { PORTA_PIN1CTRL  |= PORT_INVEN_bm; } while(0)
+#define RST_ResetInverted() do { PORTA_PIN1CTRL  &= ~PORT_INVEN_bm; } while(0)
+#define RST_DisableInterruptOnChange() do { PORTA.PIN1CTRL = (PORTA.PIN1CTRL & ~PORT_ISC_gm) | 0x0 ; } while(0)
+#define RST_EnableInterruptForBothEdges() do { PORTA.PIN1CTRL = (PORTA.PIN1CTRL & ~PORT_ISC_gm) | 0x1 ; } while(0)
+#define RST_EnableInterruptForRisingEdge() do { PORTA.PIN1CTRL = (PORTA.PIN1CTRL & ~PORT_ISC_gm) | 0x2 ; } while(0)
+#define RST_EnableInterruptForFallingEdge() do { PORTA.PIN1CTRL = (PORTA.PIN1CTRL & ~PORT_ISC_gm) | 0x3 ; } while(0)
+#define RST_DisableDigitalInputBuffer() do { PORTA.PIN1CTRL = (PORTA.PIN1CTRL & ~PORT_ISC_gm) | 0x4 ; } while(0)
+#define RST_EnableInterruptForLowLevelSensing() do { PORTA.PIN1CTRL = (PORTA.PIN1CTRL & ~PORT_ISC_gm) | 0x5 ; } while(0)
+
 //get/set PA4 aliases
 #define PA4_SetHigh() do { PORTA_OUTSET = 0x10; } while(0)
 #define PA4_SetLow() do { PORTA_OUTCLR = 0x10; } while(0)
@@ -314,24 +332,6 @@
 #define LED_WIFI_DisableDigitalInputBuffer() do { PORTD.PIN3CTRL = (PORTD.PIN3CTRL & ~PORT_ISC_gm) | 0x4 ; } while(0)
 #define LED_WIFI_EnableInterruptForLowLevelSensing() do { PORTD.PIN3CTRL = (PORTD.PIN3CTRL & ~PORT_ISC_gm) | 0x5 ; } while(0)
 
-//get/set RST aliases
-#define RST_SetHigh() do { PORTA_OUTSET = 0x1; } while(0)
-#define RST_SetLow() do { PORTA_OUTCLR = 0x1; } while(0)
-#define RST_Toggle() do { PORTA_OUTTGL = 0x1; } while(0)
-#define RST_GetValue() (VPORTA.IN & (0x1 << 0))
-#define RST_SetDigitalInput() do { PORTA_DIRCLR = 0x1; } while(0)
-#define RST_SetDigitalOutput() do { PORTA_DIRSET = 0x1; } while(0)
-#define RST_SetPullUp() do { PORTA_PIN0CTRL  |= PORT_PULLUPEN_bm; } while(0)
-#define RST_ResetPullUp() do { PORTA_PIN0CTRL  &= ~PORT_PULLUPEN_bm; } while(0)
-#define RST_SetInverted() do { PORTA_PIN0CTRL  |= PORT_INVEN_bm; } while(0)
-#define RST_ResetInverted() do { PORTA_PIN0CTRL  &= ~PORT_INVEN_bm; } while(0)
-#define RST_DisableInterruptOnChange() do { PORTA.PIN0CTRL = (PORTA.PIN0CTRL & ~PORT_ISC_gm) | 0x0 ; } while(0)
-#define RST_EnableInterruptForBothEdges() do { PORTA.PIN0CTRL = (PORTA.PIN0CTRL & ~PORT_ISC_gm) | 0x1 ; } while(0)
-#define RST_EnableInterruptForRisingEdge() do { PORTA.PIN0CTRL = (PORTA.PIN0CTRL & ~PORT_ISC_gm) | 0x2 ; } while(0)
-#define RST_EnableInterruptForFallingEdge() do { PORTA.PIN0CTRL = (PORTA.PIN0CTRL & ~PORT_ISC_gm) | 0x3 ; } while(0)
-#define RST_DisableDigitalInputBuffer() do { PORTA.PIN0CTRL = (PORTA.PIN0CTRL & ~PORT_ISC_gm) | 0x4 ; } while(0)
-#define RST_EnableInterruptForLowLevelSensing() do { PORTA.PIN0CTRL = (PORTA.PIN0CTRL & ~PORT_ISC_gm) | 0x5 ; } while(0)
-
 //get/set LED_CONN aliases
 #define LED_CONN_SetHigh() do { PORTD_OUTSET = 0x4; } while(0)
 #define LED_CONN_SetLow() do { PORTD_OUTCLR = 0x4; } while(0)
@@ -375,6 +375,8 @@ void PORTA_PA2_DefaultInterruptHandler(void);
 void PORTA_PA2_SetInterruptHandler(void (* interruptHandler)(void)) ;
 void PORTF_SW0_DefaultInterruptHandler(void);
 void PORTF_SW0_SetInterruptHandler(void (* interruptHandler)(void)) ;
+void PORTA_RST_DefaultInterruptHandler(void);
+void PORTA_RST_SetInterruptHandler(void (* interruptHandler)(void)) ;
 void PORTA_PA4_DefaultInterruptHandler(void);
 void PORTA_PA4_SetInterruptHandler(void (* interruptHandler)(void)) ;
 void PORTA_PA3_DefaultInterruptHandler(void);
@@ -401,8 +403,6 @@ void PORTF_SW1_DefaultInterruptHandler(void);
 void PORTF_SW1_SetInterruptHandler(void (* interruptHandler)(void)) ;
 void PORTD_LED_WIFI_DefaultInterruptHandler(void);
 void PORTD_LED_WIFI_SetInterruptHandler(void (* interruptHandler)(void)) ;
-void PORTA_RST_DefaultInterruptHandler(void);
-void PORTA_RST_SetInterruptHandler(void (* interruptHandler)(void)) ;
 void PORTD_LED_CONN_DefaultInterruptHandler(void);
 void PORTD_LED_CONN_SetInterruptHandler(void (* interruptHandler)(void)) ;
 void PORTF_WAKE_DefaultInterruptHandler(void);

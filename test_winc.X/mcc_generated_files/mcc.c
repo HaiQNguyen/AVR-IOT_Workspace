@@ -31,11 +31,15 @@ void SYSTEM_Initialize(void)
     PIN_MANAGER_Initialize();
     BOD_Initialize();
     WDT_Initialize();
-    CLKCTRL_Initialize();
     SLPCTRL_Initialize();
+    CLKCTRL_Initialize();
     SPI0_Initialize();
+    I2C0_Initialize();
+    ADC0_Initialize();
     USART2_Initialize();
+    RTC_Initialize();
     CPUINT_Initialize();
+    timeout_initialize();
 }
 
 /**
@@ -43,8 +47,8 @@ void SYSTEM_Initialize(void)
  */
 int8_t BOD_Initialize()
 {
-    //SLEEP DIS; 
-    ccp_write_io((void*)&(BOD.CTRLA),0x00);
+    //SLEEP ENABLED; 
+    ccp_write_io((void*)&(BOD.CTRLA),0x01);
 
     //VLMCFG BELOW; VLMIE disabled; 
 	BOD.INTCTRL = 0x00;

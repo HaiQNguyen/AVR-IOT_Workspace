@@ -47,10 +47,10 @@ int8_t RTC_Initialize()
     RTC.CNT = 0x00;
 
     //Period
-    RTC.PER = 0xFFFF;
+    RTC.PER = 0x7CFF;
 
     //Clock selection
-    RTC.CLKSEL = 0x01;
+    RTC.CLKSEL = 0x00;
 
     //DBGRUN disabled; 
     RTC.DBGCTRL = 0x00;
@@ -67,8 +67,8 @@ int8_t RTC_Initialize()
     //PI disabled; 
 	RTC.PITINTCTRL = 0x00;
 
-    //RUNSTDBY disabled; PRESCALER DIV1; CORREN disabled; RTCEN enabled; 
-    RTC.CTRLA = 0x01;
+    //RUNSTDBY disabled; PRESCALER DIV32; CORREN disabled; RTCEN enabled; 
+    RTC.CTRLA = 0x29;
 
     return 0;
 }

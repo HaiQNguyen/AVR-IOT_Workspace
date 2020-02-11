@@ -34,7 +34,7 @@
 /*
  * Support and FAQ: visit <a href="https://www.microchip.com/support/">Microchip Support</a>
  */
-
+#if 0
 #include "../mcc.h"
 #include "../winc/include/winc.h"
 #include "../winc/include/winc_legacy.h"
@@ -81,3 +81,4 @@ void winc_example(void)
 void winc_register_init(void)
 {
 }
+#endif

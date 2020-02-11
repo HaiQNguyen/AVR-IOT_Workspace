@@ -70,7 +70,6 @@ typedef enum spi_transfer_status {
     SPI configuration such as polarity or SCK frequency.
 */
 typedef enum {
-    WINC_CONFIG,
     SPI0_DEFAULT
 } SPI0_configuration_name_t;
 

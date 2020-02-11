@@ -25,6 +25,7 @@
 static void (*PORTD_PD5_InterruptHandler)(void);
 static void (*PORTA_PA2_InterruptHandler)(void);
 static void (*PORTF_SW0_InterruptHandler)(void);
+static void (*PORTA_RST_InterruptHandler)(void);
 static void (*PORTA_PA4_InterruptHandler)(void);
 static void (*PORTA_PA3_InterruptHandler)(void);
 static void (*PORTA_PA6_InterruptHandler)(void);
@@ -38,7 +39,6 @@ static void (*PORTD_LED_ERR_InterruptHandler)(void);
 static void (*PORTF_INT_InterruptHandler)(void);
 static void (*PORTF_SW1_InterruptHandler)(void);
 static void (*PORTD_LED_WIFI_InterruptHandler)(void);
-static void (*PORTA_RST_InterruptHandler)(void);
 static void (*PORTD_LED_CONN_InterruptHandler)(void);
 static void (*PORTF_WAKE_InterruptHandler)(void);
 
@@ -49,7 +49,7 @@ void PIN_MANAGER_Initialize()
     PORT_Initialize();
 
     /* DIR Registers Initialization */
-    PORTA.DIR = 0xD1;
+    PORTA.DIR = 0xD2;
     PORTB.DIR = 0x00;
     PORTC.DIR = 0x00;
     PORTD.DIR = 0x0F;
@@ -126,6 +126,7 @@ void PIN_MANAGER_Initialize()
     PORTD_PD5_SetInterruptHandler(PORTD_PD5_DefaultInterruptHandler);
     PORTA_PA2_SetInterruptHandler(PORTA_PA2_DefaultInterruptHandler);
     PORTF_SW0_SetInterruptHandler(PORTF_SW0_DefaultInterruptHandler);
+    PORTA_RST_SetInterruptHandler(PORTA_RST_DefaultInterruptHandler);
     PORTA_PA4_SetInterruptHandler(PORTA_PA4_DefaultInterruptHandler);
     PORTA_PA3_SetInterruptHandler(PORTA_PA3_DefaultInterruptHandler);
     PORTA_PA6_SetInterruptHandler(PORTA_PA6_DefaultInterruptHandler);
@@ -139,7 +140,6 @@ void PIN_MANAGER_Initialize()
     PORTF_INT_SetInterruptHandler(PORTF_INT_DefaultInterruptHandler);
     PORTF_SW1_SetInterruptHandler(PORTF_SW1_DefaultInterruptHandler);
     PORTD_LED_WIFI_SetInterruptHandler(PORTD_LED_WIFI_DefaultInterruptHandler);
-    PORTA_RST_SetInterruptHandler(PORTA_RST_DefaultInterruptHandler);
     PORTD_LED_CONN_SetInterruptHandler(PORTD_LED_CONN_DefaultInterruptHandler);
     PORTF_WAKE_SetInterruptHandler(PORTF_WAKE_DefaultInterruptHandler);
 }
@@ -215,6 +215,19 @@ void PORTF_SW0_DefaultInterruptHandler(void)
 {
     // add your PORTF_SW0 interrupt custom code
     // or set custom function using PORTF_SW0_SetInterruptHandler()
+}
+/**
+  Allows selecting an interrupt handler for PORTA_RST at application runtime
+*/
+void PORTA_RST_SetInterruptHandler(void (* interruptHandler)(void)) 
+{
+    PORTA_RST_InterruptHandler = interruptHandler;
+}
+
+void PORTA_RST_DefaultInterruptHandler(void)
+{
+    // add your PORTA_RST interrupt custom code
+    // or set custom function using PORTA_RST_SetInterruptHandler()
 }
 /**
   Allows selecting an interrupt handler for PORTA_PA4 at application runtime
@@ -384,19 +397,6 @@ void PORTD_LED_WIFI_DefaultInterruptHandler(void)
 {
     // add your PORTD_LED_WIFI interrupt custom code
     // or set custom function using PORTD_LED_WIFI_SetInterruptHandler()
-}
-/**
-  Allows selecting an interrupt handler for PORTA_RST at application runtime
-*/
-void PORTA_RST_SetInterruptHandler(void (* interruptHandler)(void)) 
-{
-    PORTA_RST_InterruptHandler = interruptHandler;
-}
-
-void PORTA_RST_DefaultInterruptHandler(void)
-{
-    // add your PORTA_RST interrupt custom code
-    // or set custom function using PORTA_RST_SetInterruptHandler()
 }
 /**
   Allows selecting an interrupt handler for PORTD_LED_CONN at application runtime

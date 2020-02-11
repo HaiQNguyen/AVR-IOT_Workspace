@@ -40,15 +40,15 @@
 
 // MCC generated parameters
 #define CFG_MQTT_PORT 1883
-#define CFG_MQTT_CONN_TIMEOUT 10
-#define CFG_MQTT_HOSTURL "192.168.1.1"
-#define CFG_MQTT_BROKERIP 0xc0a80101
+#define CFG_MQTT_CONN_TIMEOUT 120
+#define CFG_MQTT_HOSTURL "quickstart.messaging.internetofthings.ibmcloud.com"
+#define CFG_MQTT_BROKERIP 0x239ca017
 #define CFG_MQTT_TXBUFFER_SIZE 400
 #define CFG_MQTT_RXBUFFER_SIZE 200
-#define CFG_MQTT_USERNAME "microchip"
-#define CFG_MQTT_PASSWORD "microchip"
+#define CFG_MQTT_USERNAME NULL
+#define CFG_MQTT_PASSWORD NULL
 #define CFG_QOS 0
-#define CFG_PUBTOPIC "mchp/iot/events"
+#define CFG_PUBTOPIC "iot-2/evt/status/fmt/json"
 #define CFG_SUBTOPIC "mchp/iot/config"
 #define TCPIP_BSD 1
 

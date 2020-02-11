@@ -1,76 +1,69 @@
-/**
- *
- * \file
- *
- * \brief WINC1500 configuration.
- *
- * Copyright (c) 2018 Microchip Technology Inc. and its subsidiaries.
- *
- * \asf_license_start
- *
- * \page License
- *
- * Subject to your compliance with these terms, you may use Microchip
- * software and any derivatives exclusively with Microchip products.
- * It is your responsibility to comply with third party license terms applicable
- * to your use of third party software (including open source software) that
- * may accompany Microchip software.
- *
- * THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES,
- * WHETHER EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE,
- * INCLUDING ANY IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY,
- * AND FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT WILL MICROCHIP BE
- * LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE, INCIDENTAL OR CONSEQUENTIAL
- * LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND WHATSOEVER RELATED TO THE
- * SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP HAS BEEN ADVISED OF THE
- * POSSIBILITY OR THE DAMAGES ARE FORESEEABLE.  TO THE FULLEST EXTENT
- * ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN ANY WAY
- * RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
- * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *
- * \asf_license_stop
- *
- */
-/*
- * Support and FAQ: visit <a href="https://www.microchip.com/support/">Microchip Support</a>
- */
+#ifndef CONF_WIFI_M2M_H_INCLUDED
+#define CONF_WIFI_M2M_H_INCLUDED
 
-#ifndef CONF_WINC_H_INCLUDED
-#define CONF_WINC_H_INCLUDED
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-/* Define only on MCU little endian architectures */
-#define CONF_WINC_MCU_ARCH_LITTLE_ENDIAN
+#include "conf_winc_pins.h"
+#include "../winc/driver/include/m2m_types.h"
 
-/* Define if _Static_assert/static_assert is not supported on this tool chain */
-//#define CONF_WINC_HIF_STRUCT_SIZE_CHECK(STRUCTNAME)
+/** Module Pin Settings */
+// #define CONF_WIFI_M2M_RESET_PIN                 IOPORT_CREATE_PIN(PORTD, 6)
+// #define CONF_WIFI_M2M_CHIP_ENABLE_PIN           IOPORT_CREATE_PIN(PORTD, 5)
+// #define CONF_WIFI_M2M_WAKE_PIN                  IOPORT_CREATE_PIN(PORTD, 7)
 
-#include "../winc/include/conf_winc_defaults.h"
-#include "../winc/m2m/m2m_wifi.h"
-#include "../winc/socket/socket.h"
+// #define CONF_WIFI_M2M_RESET_PIN                 IOPORT_CREATE_PIN(PORTA, 2)
+// #define CONF_WIFI_M2M_CHIP_ENABLE_PIN           IOPORT_CREATE_PIN(PORTC, 0)
+// #define CONF_WIFI_M2M_WAKE_PIN                  IOPORT_CREATE_PIN(PORTA, 3)
 
-/* Debug Options */
-//#define CONF_WINC_DEBUG_LEVEL                       3
-//#define CONF_WINC_PRINTF                            printf
-//#define CONF_WINC_ASSERT
+// #define CONF_WIFI_M2M_INT_PIN                   IOPORT_CREATE_PIN(PORTD, 4)
 
-/* Define macro to swap endianness of 32-bit unsigned integer */
-#define CONF_WINC_UINT32_SWAP(U32)                  ((((U32) & 0x000000FF) << 24) | (((U32) & 0x0000FF00) << 8) | (((U32) & 0x00FF0000) >> 8) | (((U32) & 0xFF000000) >> 24))
+// #define CONF_WIFI_M2M_INT_PIN                   IOPORT_CREATE_PIN(PORTC, 1)
 
-/* Define macro to swap endianness of 16-bit unsigned integer */
-#define CONF_WINC_UINT16_SWAP(U16)                  ((((U16) & 0x00FF) << 8) | (((U16)  & 0xFF00) >> 8))
+//#define CONF_WIFI_M2M_INT_vect                  PCINT2_vect
+#define CONF_WIFI_M2M_INT_vect					PORTF_PORT_vect
 
-/* Define to allow legacy definitions of types and preprocessor macros */
-//#define CONF_WINC_LEGACY_DEFINITIONS
 
-/* Define if the socket API is exposed or not to the application */
-//#define CONF_WINC_DISABLE_SOCKET_API
+#define CONF_WIFI_M2M_INT_INTFLAG_Msk           (1 << PCINT17)
+#define CONF_WIFI_M2M_INT_INTMASK_reg           PCMSK2
+#define CONF_WIFI_M2M_INT_INTCTRL_reg           PCICR
+#define CONF_WIFI_M2M_INT_INTCTRL_Msk           (1 << PCIE2)
+
+/** INTERRUPT Detect Mode Settings */
+#define CONF_WIFI_M2M_EDGE_INTERRUPT            (1)
+
+/** BUS Type Settings */
+#define CONF_WIFI_M2M_SPI                       (1)
+#define CONF_WINC_USE_SPI                       (1)
+
+/** SPI Settings */
+#define CONF_WIFI_M2M_SPI_MODULE                0
+#define CONF_WIFI_M2M_SPI_CS_PIN                PA7
+// #define CONF_WIFI_M2M_SPI_CS_PIN                IOPORT_CREATE_PIN(PORTB, 2)
+// #define CONF_WIFI_M2M_SPI_MISO_PIN              IOPORT_CREATE_PIN(PORTB, 4)
+// #define CONF_WIFI_M2M_SPI_MOSI_PIN              IOPORT_CREATE_PIN(PORTB, 3)
+// #define CONF_WIFI_M2M_SPI_SCK_PIN               IOPORT_CREATE_PIN(PORTB, 5)
+
+// #define CONF_WIFI_M2M_SPI_CS_PIN                IOPORT_CREATE_PIN(PORTB, 4)
+// #define CONF_WIFI_M2M_SPI_MISO_PIN              IOPORT_CREATE_PIN(PORTB, 6)
+// #define CONF_WIFI_M2M_SPI_MOSI_PIN              IOPORT_CREATE_PIN(PORTB, 5)
+// #define CONF_WIFI_M2M_SPI_SCK_PIN               IOPORT_CREATE_PIN(PORTB, 7)
+//#define CONF_WIFI_M2M_SPI_BAUDRATE              (10000000UL)
+
+/** Debug Options */
+#define CONF_WIFI_M2M_DEBUG                     (0)
+#define CONF_WIFI_M2M_debug_print                    printf
+
+// #define CONF_WINC_DEBUG					(1)
+// #define CONF_WINC_PRINTF				printf
 
 // <h> WLAN Configuration
 
 // <s> SSID
 // <i> Target WLAN SSID
 // <id> main_wlan_ssid
-#define CFG_MAIN_WLAN_SSID "HaisSamSung"
+#define CFG_MAIN_WLAN_SSID "MCHP.IOT"
 
 // <y> Authentication
 // <i> Target WLAN Authentication
@@ -85,8 +78,26 @@
 // <s> Password
 // <i> Target WLAN password
 // <id> main_wlan_psk
-#define CFG_MAIN_WLAN_PSK "12344321"
+#define CFG_MAIN_WLAN_PSK "microchip"
 
 // </h>
 
-#endif /* CONF_WINC_H_INCLUDED */
+// <h> AP Mode Configuration
+
+// <s> Name
+// <i> AP name
+// <id> wlan_ap_name
+#define CFG_WLAN_AP_NAME "AVR.IoT"
+
+// <s> IP Address
+// <i> AP IP Address
+// <id> wlan_ap_ip_address
+#define CFG_WLAN_AP_IP_ADDRESS {192, 168, 1, 1}
+
+// </h>
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* CONF_WIFI_M2M_H_INCLUDED */

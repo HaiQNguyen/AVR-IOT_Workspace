@@ -49,8 +49,8 @@
 #include "../winc/socket/socket.h"
 
 /* Debug Options */
-//#define CONF_WINC_DEBUG_LEVEL                       3
-//#define CONF_WINC_PRINTF                            printf
+#define CONF_WINC_DEBUG_LEVEL                       3
+#define CONF_WINC_PRINTF                            printf
 //#define CONF_WINC_ASSERT
 
 /* Define macro to swap endianness of 32-bit unsigned integer */

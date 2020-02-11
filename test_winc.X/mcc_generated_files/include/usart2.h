@@ -37,6 +37,16 @@ extern "C" {
 /* Normal Mode, Baud register value */
 #define USART2_BAUD_RATE(BAUD_RATE) (((float)10000000 * 64 / (16 * (float)BAUD_RATE)) + 0.5)
 
+/* USART2 Ringbuffer */
+
+#define USART2_RX_BUFFER_SIZE 64
+#define USART2_TX_BUFFER_SIZE 32
+#define USART2_RX_BUFFER_MASK (USART2_RX_BUFFER_SIZE - 1)
+#define USART2_TX_BUFFER_MASK (USART2_TX_BUFFER_SIZE - 1)
+
+typedef enum { USART2_RX_CB = 1, USART2_TX_CB } usart2_cb_t;
+typedef void (*usart_callback)(void);
+
 /**
  * \brief Initialize USART interface
  * If module is configured to disabled state, the clock to the USART is disabled
@@ -118,8 +128,9 @@ bool USART2_IsRxReady();
  */
 bool USART2_IsTxBusy();
 
-bool USART2_IsTxDone();
 
+
+bool USART2_IsTxDone();
 /**
  * \brief Read one character from USART2
  *
@@ -139,6 +150,26 @@ uint8_t USART2_Read(void);
  * \return Nothing
  */
 void USART2_Write(const uint8_t data);
+
+/**
+ * \brief Set call back function for USART2
+ *
+ * \param[in] cb The call back function to set
+ *
+ * \param[in] type The type of ISR to be set
+ *
+ * \return Nothing
+ */
+ 
+void USART2_DefaultRxIsrCb(void);
+
+void USART2_DefaultTxIsrCb(void);
+
+void USART2_SetISRCb(usart_callback cb, usart2_cb_t type);
+
+void USART2_SetRXISRCb(usart_callback cb);
+
+void USART2_SetTXISRCb(usart_callback cb);
 
 #ifdef __cplusplus
 }

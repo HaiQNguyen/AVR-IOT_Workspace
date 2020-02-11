@@ -20,7 +20,7 @@
     OF FEES, IF ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS 
     SOFTWARE.
 */
-
+#if 0
 
 #include "../mcc.h"
 #include "winc_example.h"
@@ -365,3 +365,4 @@ void app_mqttScheduler(void)
     m2m_wifi_handle_events(NULL);
 }
 
+#endif
